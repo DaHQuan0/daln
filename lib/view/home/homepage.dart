@@ -20,7 +20,7 @@ class _HomeViewState extends State<HomePage> {
           'Theo ngày',
         ),
         centerTitle: true,
-        backgroundColor: Colors.lightGreen,
+        backgroundColor: Colors.lightBlueAccent,
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.calendar_today),
@@ -55,73 +55,79 @@ class _HomeViewState extends State<HomePage> {
       body: Column(
         children: [
           SizedBox(
-            height: 500,
+            height: 536,
           ),
           // Tính năng chính
-          Expanded(
-            child: Container(
-              color: Colors.lightGreen, // Màu nền của phần tính năng chính
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  HomePage()), // Đường dẫn đến _HomeViewState
-                        );
-                      },
-                      child: FeatureCard(
-                        icon: Icons.pie_chart,
-                        title: 'Tổng hợp',
+
+          Padding(
+            padding: const EdgeInsets.fromLTRB(
+                0, 0, 0, 0), // Giãn cách trái, phải, trên, dưới
+            child: Expanded(
+              child: Container(
+                color:
+                    Colors.lightBlueAccent, // Màu nền của phần tính năng chính
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HomePage(),
+                            ),
+                          );
+                        },
+                        child: FeatureCard(
+                          icon: Icons.pie_chart,
+                          title: 'Tổng hợp',
+                        ),
                       ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  ReportView()), // Đường dẫn đến _HomeViewState
-                        );
-                      },
-                      child: FeatureCard(
-                        icon: Icons.bar_chart,
-                        title: 'Báo cáo',
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ReportView(),
+                            ),
+                          );
+                        },
+                        child: FeatureCard(
+                          icon: Icons.bar_chart,
+                          title: 'Báo cáo',
+                        ),
                       ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  CalendarView()), // Đường dẫn đến _HomeViewState
-                        );
-                      },
-                      child: FeatureCard(
-                        icon: Icons.calendar_today,
-                        title: 'Lịch',
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CalendarView(),
+                            ),
+                          );
+                        },
+                        child: FeatureCard(
+                          icon: Icons.calendar_today,
+                          title: 'Lịch',
+                        ),
                       ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  AccView()), // Đường dẫn đến _HomeViewState
-                        );
-                      },
-                      child: FeatureCard(
-                        icon: Icons.account_balance,
-                        title: 'Tài khoản',
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AccView(),
+                            ),
+                          );
+                        },
+                        child: FeatureCard(
+                          icon: Icons.account_balance,
+                          title: 'Tài khoản',
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
