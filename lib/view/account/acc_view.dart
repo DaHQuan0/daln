@@ -34,8 +34,8 @@ class _AccViewState extends State<AccView> {
                     borderRadius: BorderRadius.circular(15),
                     child: Image.asset(
                       'assets/img/u1.png',
-                      width: 50,
-                      height: 50,
+                      width: 100,
+                      height: 100,
                     ),
                   ),
                 ),
@@ -176,7 +176,7 @@ class _AccViewState extends State<AccView> {
                 ),
               ),
               SizedBox(
-                height: 183,
+                height: 130,
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(
