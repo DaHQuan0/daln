@@ -178,81 +178,40 @@ class _AccViewState extends State<AccView> {
               SizedBox(
                 height: 130,
               ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(
-                    0, 0, 0, 0), // Giãn cách trái, phải, trên, dưới
-                child: Expanded(
-                  child: Container(
-                    color: Colors
-                        .lightBlueAccent, // Màu nền của phần tính năng chính
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.vertical,
-                      child: Row(
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => HomePage(),
-                                ),
-                              );
-                            },
-                            child: FeatureCard(
-                              icon: Icons.pie_chart,
-                              title: 'Tổng hợp',
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ReportView(),
-                                ),
-                              );
-                            },
-                            child: FeatureCard(
-                              icon: Icons.bar_chart,
-                              title: 'Báo cáo',
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => CalendarView(),
-                                ),
-                              );
-                            },
-                            child: FeatureCard(
-                              icon: Icons.calendar_today,
-                              title: 'Lịch',
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => AccView(),
-                                ),
-                              );
-                            },
-                            child: FeatureCard(
-                              icon: Icons.account_balance,
-                              title: 'Tài khoản',
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
             ],
           ),
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        color: Colors.lightBlueAccent,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            IconButton(
+              icon: Icon(Icons.pie_chart),
+              onPressed: () {
+                // Xử lý sự kiện khi nhấn nút home
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.bar_chart),
+              onPressed: () {
+                // Xử lý sự kiện khi nhấn nút search
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.calendar_today),
+              onPressed: () {
+                // Xử lý sự kiện khi nhấn nút settings
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.account_balance),
+              onPressed: () {
+                // Xử lý sự kiện khi nhấn nút settings
+              },
+            ),
+          ],
         ),
       ),
     );
