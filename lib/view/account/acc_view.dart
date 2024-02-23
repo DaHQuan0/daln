@@ -1,4 +1,3 @@
-import 'package:daln/common_widget/feature_card.dart';
 import 'package:daln/view/calendar/cal_view.dart';
 import 'package:daln/view/home/homepage.dart';
 import 'package:daln/view/report/report_view.dart';
@@ -175,9 +174,9 @@ class _AccViewState extends State<AccView> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: 130,
-              ),
+              // SizedBox(
+              //   height: 130,
+              // ),
             ],
           ),
         ),
@@ -190,25 +189,37 @@ class _AccViewState extends State<AccView> {
             IconButton(
               icon: Icon(Icons.pie_chart),
               onPressed: () {
-                // Xử lý sự kiện khi nhấn nút home
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomePage()),
+                );
               },
             ),
             IconButton(
               icon: Icon(Icons.bar_chart),
               onPressed: () {
-                // Xử lý sự kiện khi nhấn nút search
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ReportView()),
+                );
               },
             ),
             IconButton(
               icon: Icon(Icons.calendar_today),
               onPressed: () {
-                // Xử lý sự kiện khi nhấn nút settings
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CalendarView()),
+                );
               },
             ),
             IconButton(
               icon: Icon(Icons.account_balance),
               onPressed: () {
-                // Xử lý sự kiện khi nhấn nút settings
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AccView()),
+                );
               },
             ),
           ],

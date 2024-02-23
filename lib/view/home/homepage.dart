@@ -95,25 +95,37 @@ class _HomeViewState extends State<HomePage> {
             IconButton(
               icon: Icon(Icons.pie_chart),
               onPressed: () {
-                // Xử lý sự kiện khi nhấn nút home
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomePage()),
+                );
               },
             ),
             IconButton(
               icon: Icon(Icons.bar_chart),
               onPressed: () {
-                // Xử lý sự kiện khi nhấn nút search
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ReportView()),
+                );
               },
             ),
             IconButton(
               icon: Icon(Icons.calendar_today),
               onPressed: () {
-                // Xử lý sự kiện khi nhấn nút settings
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CalendarView()),
+                );
               },
             ),
             IconButton(
               icon: Icon(Icons.account_balance),
               onPressed: () {
-                // Xử lý sự kiện khi nhấn nút settings
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AccView()),
+                );
               },
             ),
           ],
