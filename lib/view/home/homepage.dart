@@ -1,10 +1,9 @@
 import 'package:daln/view/account/acc_view.dart';
+import 'package:daln/view/home/add.dart';
 import 'package:daln/view/home/in.dart';
 import 'package:daln/view/home/out.dart';
-import 'package:daln/view/login/login_view.dart';
 import 'package:daln/view/report/report_view.dart';
 import 'package:daln/widget/home_view_model.dart';
-import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
@@ -57,7 +56,7 @@ class _HomeViewState extends State<HomePage> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => OutMView()),
+                    MaterialPageRoute(builder: (context) => const OutMView()),
                   );
                 },
                 child: const Text('Khoản chi tiêu'),
@@ -67,7 +66,7 @@ class _HomeViewState extends State<HomePage> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => InMView()),
+                    MaterialPageRoute(builder: (context) => const InMView()),
                   );
                 },
                 child: const Text('Khoản thu về'),
@@ -80,7 +79,12 @@ class _HomeViewState extends State<HomePage> {
       body: const SingleChildScrollView(),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
-        onPressed: () => (null),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const AddMView()),
+          );
+        },
       ),
       bottomNavigationBar: BottomAppBar(
         color: Colors.lightBlueAccent,
@@ -88,29 +92,29 @@ class _HomeViewState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             IconButton(
-              icon: Icon(Icons.pie_chart),
+              icon: const Icon(Icons.pie_chart),
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => HomePage()),
+                  MaterialPageRoute(builder: (context) => const HomePage()),
                 );
               },
             ),
             IconButton(
-              icon: Icon(Icons.bar_chart),
+              icon: const Icon(Icons.bar_chart),
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ReportView()),
+                  MaterialPageRoute(builder: (context) => const ReportView()),
                 );
               },
             ),
             IconButton(
-              icon: Icon(Icons.account_balance),
+              icon: const Icon(Icons.account_balance),
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => AccView()),
+                  MaterialPageRoute(builder: (context) => const AccView()),
                 );
               },
             ),
