@@ -1,5 +1,4 @@
 import 'package:daln/view/account/acc_view.dart';
-import 'package:daln/view/calendar/cal_view.dart';
 import 'package:daln/view/home/homepage.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +20,14 @@ class _ReportViewState extends State<ReportView> {
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.calendar_today),
-            onPressed: () {},
+            onPressed: () {
+              showDatePicker(
+                  initialEntryMode: DatePickerEntryMode.input,
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(2000),
+                  lastDate: DateTime(3000));
+            },
           ),
         ],
       ),
@@ -46,15 +52,6 @@ class _ReportViewState extends State<ReportView> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => ReportView()),
-                );
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.calendar_today),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => CalendarView()),
                 );
               },
             ),

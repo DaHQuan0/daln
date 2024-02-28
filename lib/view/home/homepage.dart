@@ -1,7 +1,7 @@
-import 'package:daln/common_widget/report_card.dart';
 import 'package:daln/view/account/acc_view.dart';
-import 'package:daln/view/calendar/cal_view.dart';
-import 'package:daln/view/report/report_detail_view.dart';
+import 'package:daln/view/home/in.dart';
+import 'package:daln/view/home/out.dart';
+import 'package:daln/view/login/login_view.dart';
 import 'package:daln/view/report/report_view.dart';
 import 'package:daln/widget/home_view_model.dart';
 import 'package:flutter/rendering.dart';
@@ -39,7 +39,12 @@ class _HomeViewState extends State<HomePage> {
           IconButton(
             icon: const Icon(Icons.calendar_today),
             onPressed: () {
-              // TODO: Xử lý sự kiện mở lịch chọn ngày
+              showDatePicker(
+                  initialEntryMode: DatePickerEntryMode.input,
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(2000),
+                  lastDate: DateTime(3000));
             },
           ),
         ],
@@ -50,14 +55,20 @@ class _HomeViewState extends State<HomePage> {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  // TODO: Xử lý sự kiện nhấn nút Khoản chi tiêu
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => OutMView()),
+                  );
                 },
                 child: const Text('Khoản chi tiêu'),
               ),
               const SizedBox(width: 16.0),
               ElevatedButton(
                 onPressed: () {
-                  // TODO: Xử lý sự kiện nhấn nút Khoản thu về
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => InMView()),
+                  );
                 },
                 child: const Text('Khoản thu về'),
               ),
@@ -66,27 +77,11 @@ class _HomeViewState extends State<HomePage> {
         ),
       ),
       backgroundColor: Colors.white,
-      body: const SingleChildScrollView(
-          // children: [
-          //    SizedBox(
-          //      height: 536,
-          //      child: Obx(() => ListView.builder(
-          //          scrollDirection: Axis.horizontal,
-          //          padding: const EdgeInsets.symmetric(horizontal: 15),
-          //          itemCount: homeVM.reportList.length,
-          //          itemBuilder: (context, index) {
-          //            var pObj = homeVM.reportList[index];
-          //            return ReportCard(
-          //              pObj: pObj,
-          //              onTap: () async {
-          //                await Get.to(() => ReportDetails(pObj: pObj));
-          //                //homeVM.serviceCallHome();
-          //              },
-          //            );
-          //          })),
-          //    ),
-          // ],
-          ),
+      body: const SingleChildScrollView(),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add),
+        onPressed: () => (null),
+      ),
       bottomNavigationBar: BottomAppBar(
         color: Colors.lightBlueAccent,
         child: Row(
@@ -107,15 +102,6 @@ class _HomeViewState extends State<HomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => ReportView()),
-                );
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.calendar_today),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => CalendarView()),
                 );
               },
             ),

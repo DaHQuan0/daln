@@ -1,4 +1,3 @@
-import 'package:daln/view/calendar/cal_view.dart';
 import 'package:daln/view/home/homepage.dart';
 import 'package:daln/view/report/report_view.dart';
 import 'package:flutter/material.dart';
@@ -57,7 +56,7 @@ class _AccViewState extends State<AccView> {
                   style: TextButton.styleFrom(
                     backgroundColor: Colors.white,
                   ),
-                  child: Row(
+                  child: const Row(
                     children: [
                       Icon(Icons.money),
                       SizedBox(width: 10),
@@ -83,7 +82,7 @@ class _AccViewState extends State<AccView> {
                   style: TextButton.styleFrom(
                     backgroundColor: Colors.white,
                   ),
-                  child: Row(
+                  child: const Row(
                     children: [
                       Icon(Icons.account_box),
                       SizedBox(width: 10),
@@ -108,7 +107,7 @@ class _AccViewState extends State<AccView> {
                   style: TextButton.styleFrom(
                     backgroundColor: Colors.white,
                   ),
-                  child: Row(
+                  child: const Row(
                     children: [
                       Icon(Icons.bar_chart),
                       SizedBox(width: 10),
@@ -133,7 +132,7 @@ class _AccViewState extends State<AccView> {
                   style: TextButton.styleFrom(
                     backgroundColor: Colors.white,
                   ),
-                  child: Row(
+                  child: const Row(
                     children: [
                       Icon(Icons.settings),
                       SizedBox(width: 10),
@@ -158,7 +157,7 @@ class _AccViewState extends State<AccView> {
                   style: TextButton.styleFrom(
                     backgroundColor: Colors.white,
                   ),
-                  child: Row(
+                  child: const Row(
                     children: [
                       Icon(Icons.logout),
                       SizedBox(width: 10),
@@ -201,15 +200,6 @@ class _AccViewState extends State<AccView> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => ReportView()),
-                );
-              },
-            ),
-            IconButton(
-              icon: Icon(Icons.calendar_today),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => CalendarView()),
                 );
               },
             ),
