@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "852258747070",
+    "project_id": "daln-prj",
+    "storage_bucket": "daln-prj.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:852258747070:android:3cbcb631f724be99ed64ef",
+        "android_client_info": {
+          "package_name": "com.example.daln"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDjJiHFGSwwFjSLUHd3fA0P5ne6aF0x7wQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

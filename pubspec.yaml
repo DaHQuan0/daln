@@ -44,6 +44,8 @@ dependencies:
   flutter_timezone: ^1.0.6
   flutter_easyloading: ^3.0.5
   cached_network_image: ^3.2.3
+  firebase_core: ^2.25.5
+  firebase_auth: ^4.17.6
 
 dependency_overrides:
   intl: ^0.18.1
