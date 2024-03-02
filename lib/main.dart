@@ -1,4 +1,7 @@
 import 'package:daln/view/home/homepage.dart';
+import 'package:daln/view/home/tonghop.dart';
+import 'package:daln/view/login/login_view.dart';
+import 'package:daln/view/login/signin_view.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -24,13 +27,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "Food App",
+      title: "",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         scaffoldBackgroundColor: const Color(0xFFF5f5f3),
       ),
       routes: {
-        "/": (context) => HomePage(),
+        "/": (context) => const HomePage(),
+        "/singin": (context) => SigninView(),
+        "/login": (context) => LoginView(),
+        "/content": (context) => TongHop(),
       },
     );
   }

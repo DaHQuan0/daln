@@ -1,5 +1,6 @@
 import 'package:daln/view/home/homepage.dart';
 import 'package:daln/view/report/report_view.dart';
+import 'package:daln/widget/fb_auth.dart';
 import 'package:flutter/material.dart';
 
 class AccView extends StatefulWidget {
@@ -10,6 +11,7 @@ class AccView extends StatefulWidget {
 }
 
 class _AccViewState extends State<AccView> {
+  FirebaseAuthService _auth = FirebaseAuthService();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -153,7 +155,10 @@ class _AccViewState extends State<AccView> {
                 padding: const EdgeInsets.fromLTRB(
                     16, 8, 16, 8), // Giãn cách trái, phải, trên, dưới
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    await _auth.signOut();
+                    Navigator.of(context).popAndPushNamed("/login");
+                  },
                   style: TextButton.styleFrom(
                     backgroundColor: Colors.white,
                   ),

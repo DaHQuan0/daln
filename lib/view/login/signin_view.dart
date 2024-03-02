@@ -1,22 +1,22 @@
 import 'package:daln/common_widget/mytextfield.dart';
-import 'package:daln/view/login/signin_view.dart';
 import 'package:daln/widget/fb_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class LoginView extends StatelessWidget {
+class SigninView extends StatelessWidget {
   FirebaseAuthService _auth = FirebaseAuthService();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final confirmController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFCEABB5),
-      body: SingleChildScrollView(
-          child: Padding(
+      body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 25),
-        child: Center(
+        child: SingleChildScrollView(
+            child: Center(
           child: Column(
             children: [
               SizedBox(height: 50),
@@ -46,41 +46,21 @@ class LoginView extends StatelessWidget {
               ),
               SizedBox(height: 30),
               MyTextField(
-                  controller: emailController,
-                  hinText: "Email",
-                  obscureText: false),
+                controller: emailController,
+                hinText: 'Email',
+                obscureText: false,
+              ),
               SizedBox(height: 20),
               MyTextField(
-                  controller: passwordController,
-                  hinText: "Password",
-                  obscureText: true),
+                controller: passwordController,
+                hinText: 'Password',
+                obscureText: true,
+              ),
               SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    "Don't have an account ?",
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  SizedBox(
-                    width: 70,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => SigninView()),
-                      );
-                    },
-                    child: Text(
-                      "Sign Up",
-                      style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.red,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  )
-                ],
+              MyTextField(
+                controller: confirmController,
+                hinText: 'Confirm Password',
+                obscureText: true,
               ),
               SizedBox(height: 20),
               ElevatedButton(
@@ -88,35 +68,37 @@ class LoginView extends StatelessWidget {
                     padding: EdgeInsets.symmetric(
                         horizontal: 140.0, vertical: 15.0)),
                 onPressed: () async {
-                  User? user = await _auth.loginUserWithEmailAndPassword(
+                  User? user = await _auth.registerUserWithEmailAndPassword(
                       emailController.text, passwordController.text);
+                  if (passwordController.text != confirmController.text) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text("Không khớp với Password")));
+                  }
 
                   if (user != null) {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text("Đã đăng nhập thành công."),
+                      content: Text("Đã đăng ký thành công."),
                     ));
 
                     Navigator.of(context).popAndPushNamed("/content");
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text("Có lỗi đăng nhập."),
+                      content: Text("Có lỗi đăng ký."),
                     ));
                   }
                 },
                 child: Text(
-                  "Log In",
+                  "Sign In",
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
             ],
           ),
-        ),
-      )),
+        )),
+      ),
     );
   }
-
-  void setState(Null Function() param0) {}
 }
