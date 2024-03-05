@@ -21,7 +21,7 @@ class FirebaseAuthService {
           email: strEmail, password: strPassword);
       return credential.user;
     } catch (err) {
-      print("Co loi dang nhap: $err");
+      print("Tai khoan hoac mat khau khong dung: $err");
     }
   }
 

@@ -1,17 +1,58 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:daln/view/account/acc_view.dart';
+import 'package:daln/view/home/moneys_config/in/add_in.dart';
+import 'package:daln/view/home/home.dart';
 import 'package:daln/view/home/homepage.dart';
-import 'package:daln/view/home/in.dart';
+import 'package:daln/view/home/moneys_config/out/out.dart';
 import 'package:daln/view/report/report_view.dart';
 import 'package:flutter/material.dart';
 
-class OutMView extends StatefulWidget {
-  const OutMView({super.key});
+class InMView extends StatefulWidget {
+  const InMView({super.key});
 
   @override
-  State<OutMView> createState() => _OutMViewState();
+  State<InMView> createState() => _InMViewState();
 }
 
-class _OutMViewState extends State<OutMView> {
+class _InMViewState extends State<InMView> {
+  final FirestoreService firestoreService = FirestoreService();
+
+  final TextEditingController textController = TextEditingController();
+  String inputText = '';
+
+  void openMoneyBox({String? docID}) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: TextField(
+          controller: textController,
+          onChanged: (newText) {
+            setState(() {
+              inputText = newText;
+            });
+          },
+        ),
+        actions: [
+          ElevatedButton(
+            onPressed: () {
+              if (docID == null) {
+                firestoreService.addMoney(inputText);
+              } else {
+                firestoreService.updateMoney(docID, inputText);
+              }
+              textController.clear();
+              setState(() {
+                inputText = '';
+              });
+              Navigator.pop(context);
+            },
+            child: Text('Add'),
+          )
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,10 +104,52 @@ class _OutMViewState extends State<OutMView> {
         ),
       ),
       backgroundColor: Colors.white,
-      body: const SingleChildScrollView(),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: firestoreService.getMoneysStream(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            List<QueryDocumentSnapshot> moneyList = snapshot.data!.docs;
+
+            return ListView.builder(
+              itemCount: moneyList.length,
+              itemBuilder: (context, index) {
+                DocumentSnapshot document = moneyList[index];
+                String docID = document.id;
+
+                Map<String, dynamic> data =
+                    document.data() as Map<String, dynamic>;
+
+                return ListTile(
+                  title: Text(data['money']),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      IconButton(
+                        onPressed: () => openMoneyBox(docID: docID),
+                        icon: Icon(Icons.settings),
+                      ),
+                      IconButton(
+                        onPressed: () => firestoreService.deleteMoney(docID),
+                        icon: Icon(Icons.delete),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            );
+          } else {
+            return Text('No data...');
+          }
+        },
+      ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
-        onPressed: () => (null),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const AddMInView()),
+          );
+        },
       ),
       bottomNavigationBar: BottomAppBar(
         color: Colors.lightBlueAccent,

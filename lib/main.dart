@@ -1,3 +1,5 @@
+import 'package:daln/view/home/moneys_config/in/add_in.dart';
+import 'package:daln/view/home/moneys_config/out/add_out.dart';
 import 'package:daln/view/home/homepage.dart';
 import 'package:daln/view/home/tonghop.dart';
 import 'package:daln/view/login/login_view.dart';
@@ -36,7 +38,9 @@ class MyApp extends StatelessWidget {
         "/": (context) => const HomePage(),
         "/singin": (context) => SigninView(),
         "/login": (context) => LoginView(),
-        "/content": (context) => TongHop(),
+        //"/content": (context) => TongHop(),
+        "/add-out": (context) => AddMOutView(),
+        "/add-in": (context) => AddMInView()
       },
     );
   }

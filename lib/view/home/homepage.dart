@@ -1,4 +1,4 @@
-import 'package:daln/view/home/tonghop.dart';
+import 'package:daln/view/home/moneys_config/out/out.dart';
 import 'package:daln/view/home/wellcome_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +17,7 @@ class _HomeViewState extends State<HomePage> {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return TongHop();
+            return OutMView();
           } else {
             return WellcomeView();
           }

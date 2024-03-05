@@ -1,6 +1,5 @@
 import 'package:daln/model/report_model.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class ReportDetails extends StatefulWidget {
   final ReportModel pObj;
