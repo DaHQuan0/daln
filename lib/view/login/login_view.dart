@@ -96,7 +96,7 @@ class LoginView extends StatelessWidget {
                       content: Text("Đã đăng nhập thành công."),
                     ));
 
-                    Navigator.of(context).popAndPushNamed("/content");
+                    Navigator.of(context).popAndPushNamed("/add-out");
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text("Có lỗi đăng nhập."),

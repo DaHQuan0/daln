@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:daln/view/account/acc_view.dart';
 import 'package:daln/view/home/moneys_config/in/add_in.dart';
-import 'package:daln/view/home/home.dart';
-import 'package:daln/view/home/homepage.dart';
+import 'package:daln/view/home/moneys_config/out/add_out.dart';
 import 'package:daln/view/home/moneys_config/out/out.dart';
+import 'package:daln/widget/moneyConfig.dart';
+import 'package:daln/view/home/homepage.dart';
 import 'package:daln/view/report/report_view.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class InMView extends StatefulWidget {
   const InMView({super.key});
@@ -15,9 +17,11 @@ class InMView extends StatefulWidget {
 }
 
 class _InMViewState extends State<InMView> {
-  final FirestoreService firestoreService = FirestoreService();
+  final InMoneyService inMoneyService = InMoneyService();
 
   final TextEditingController textController = TextEditingController();
+  DateTime selectedDate = DateTime.now();
+  String selectedOption = 'ngày';
   String inputText = '';
 
   void openMoneyBox({String? docID}) {
@@ -36,9 +40,9 @@ class _InMViewState extends State<InMView> {
           ElevatedButton(
             onPressed: () {
               if (docID == null) {
-                firestoreService.addMoney(inputText);
+                inMoneyService.addMoney(inputText);
               } else {
-                firestoreService.updateMoney(docID, inputText);
+                inMoneyService.updateMoney(docID, inputText);
               }
               textController.clear();
               setState(() {
@@ -53,12 +57,75 @@ class _InMViewState extends State<InMView> {
     );
   }
 
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(3000),
+    );
+
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+      });
+    }
+  }
+
+  void showOptions(BuildContext context) {
+    final List<String> options = ['ngày', 'tháng', 'năm'];
+
+    showMenu(
+      context: context,
+      position: RelativeRect.fromLTRB(0, 0, 0, 0),
+      items: options.map((option) {
+        return PopupMenuItem(
+          value: option,
+          child: Text(option),
+        );
+      }).toList(),
+    ).then((value) {
+      if (value != null) {
+        setState(() {
+          selectedOption = value;
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    String displayValue = '';
+
+    if (selectedOption == 'ngày') {
+      displayValue = DateFormat.yMd().format(selectedDate);
+    } else if (selectedOption == 'tháng') {
+      displayValue = DateFormat.M().format(selectedDate);
+    } else if (selectedOption == 'năm') {
+      displayValue = DateFormat.y().format(selectedDate);
+    }
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Theo ngày',
+        title: Wrap(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text('Theo $selectedOption'),
+                Text(
+                  displayValue,
+                  style: TextStyle(fontSize: 12),
+                ),
+              ],
+            ),
+            //SizedBox(width: 1),
+            IconButton(
+              icon: Icon(Icons.arrow_drop_down),
+              onPressed: () {
+                showOptions(context);
+              },
+            ),
+          ],
         ),
         centerTitle: true,
         backgroundColor: Colors.lightBlueAccent,
@@ -66,12 +133,7 @@ class _InMViewState extends State<InMView> {
           IconButton(
             icon: const Icon(Icons.calendar_today),
             onPressed: () {
-              showDatePicker(
-                  initialEntryMode: DatePickerEntryMode.input,
-                  context: context,
-                  initialDate: DateTime.now(),
-                  firstDate: DateTime(2000),
-                  lastDate: DateTime(3000));
+              _selectDate(context);
             },
           ),
         ],
@@ -84,7 +146,7 @@ class _InMViewState extends State<InMView> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const OutMView()),
+                    MaterialPageRoute(builder: (context) => const InMView()),
                   );
                 },
                 child: const Text('Khoản chi tiêu'),
@@ -94,7 +156,7 @@ class _InMViewState extends State<InMView> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const InMView()),
+                    MaterialPageRoute(builder: (context) => const OutMView()),
                   );
                 },
                 child: const Text('Khoản thu về'),
@@ -105,7 +167,7 @@ class _InMViewState extends State<InMView> {
       ),
       backgroundColor: Colors.white,
       body: StreamBuilder<QuerySnapshot>(
-        stream: firestoreService.getMoneysStream(),
+        stream: inMoneyService.getMoneysStream(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             List<QueryDocumentSnapshot> moneyList = snapshot.data!.docs;
@@ -119,8 +181,17 @@ class _InMViewState extends State<InMView> {
                 Map<String, dynamic> data =
                     document.data() as Map<String, dynamic>;
 
+                // Chuyển đổi Timestamp thành DateTime
+                DateTime dateTime = (data['timestamp'] as Timestamp).toDate();
+
+                // Định dạng thời gian và ngày tháng sử dụng DateFormat
+                String formattedTime = DateFormat.Hm().format(dateTime);
+                String formattedDate = DateFormat.yMd().format(dateTime);
+
                 return ListTile(
-                  title: Text(data['money']),
+                  title: Text(data['inmoney']),
+                  subtitle: Text(
+                      '$formattedTime - $formattedDate'), // Hiển thị thời gian và ngày tháng
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -129,7 +200,7 @@ class _InMViewState extends State<InMView> {
                         icon: Icon(Icons.settings),
                       ),
                       IconButton(
-                        onPressed: () => firestoreService.deleteMoney(docID),
+                        onPressed: () => inMoneyService.deleteMoney(docID),
                         icon: Icon(Icons.delete),
                       ),
                     ],
@@ -138,7 +209,7 @@ class _InMViewState extends State<InMView> {
               },
             );
           } else {
-            return Text('No data...');
+            return const Text('No data...');
           }
         },
       ),

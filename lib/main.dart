@@ -1,7 +1,6 @@
 import 'package:daln/view/home/moneys_config/in/add_in.dart';
 import 'package:daln/view/home/moneys_config/out/add_out.dart';
 import 'package:daln/view/home/homepage.dart';
-import 'package:daln/view/home/tonghop.dart';
 import 'package:daln/view/login/login_view.dart';
 import 'package:daln/view/login/signin_view.dart';
 import 'package:flutter/material.dart';
