@@ -1,6 +1,8 @@
 import 'package:daln/view/account/acc_view.dart';
 import 'package:daln/view/home/homepage.dart';
+import 'package:daln/view/home/moneys_config/in/add_in.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ReportView extends StatefulWidget {
   const ReportView({Key? key}) : super(key: key);
@@ -10,28 +12,101 @@ class ReportView extends StatefulWidget {
 }
 
 class _ReportViewState extends State<ReportView> {
+  final TextEditingController textController = TextEditingController();
+  DateTime selectedDate = DateTime.now();
+  String selectedOption = 'ngày';
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(3000),
+    );
+
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+      });
+    }
+  }
+
+  void showOptions(BuildContext context) {
+    final List<String> options = ['ngày', 'tháng', 'năm'];
+
+    showMenu(
+      context: context,
+      position: const RelativeRect.fromLTRB(0, 0, 0, 0),
+      items: options.map((option) {
+        return PopupMenuItem(
+          value: option,
+          child: Text(option),
+        );
+      }).toList(),
+    ).then((value) {
+      if (value != null) {
+        setState(() {
+          selectedOption = value;
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    String displayValue = '';
+
+    if (selectedOption == 'ngày') {
+      displayValue = DateFormat.yMd().format(selectedDate);
+    } else if (selectedOption == 'tháng') {
+      displayValue = DateFormat.M().format(selectedDate);
+    } else if (selectedOption == 'năm') {
+      displayValue = DateFormat.y().format(selectedDate);
+    }
     return Scaffold(
       appBar: AppBar(
-        title: Text("Theo ngày"),
+        title: Wrap(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text('Theo $selectedOption'),
+                Text(
+                  displayValue,
+                  style: TextStyle(fontSize: 12),
+                ),
+              ],
+            ),
+            //SizedBox(width: 1),
+            IconButton(
+              icon: Icon(Icons.arrow_drop_down),
+              onPressed: () {
+                showOptions(context);
+              },
+            ),
+          ],
+        ),
         centerTitle: true,
         backgroundColor: Colors.lightBlueAccent,
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.calendar_today),
             onPressed: () {
-              showDatePicker(
-                  initialEntryMode: DatePickerEntryMode.input,
-                  context: context,
-                  initialDate: DateTime.now(),
-                  firstDate: DateTime(2000),
-                  lastDate: DateTime(3000));
+              _selectDate(context);
             },
           ),
         ],
       ),
-      body: const SingleChildScrollView(),
+      body: SingleChildScrollView(),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const AddMInView()),
+          );
+        },
+      ),
       bottomNavigationBar: BottomAppBar(
         color: Colors.lightBlueAccent,
         child: Row(

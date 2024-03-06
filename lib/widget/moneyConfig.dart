@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:daln/model/report_model.dart';
+import 'package:flutter/material.dart';
 // import 'package:flutter/material.dart';
 
 // class Home extends StatefulWidget {
@@ -197,7 +199,6 @@ class OutMoneyService {
 
 final inMoneyService = InMoneyService();
 final outMoneyService = OutMoneyService();
-
 Future<double> getTotalMoney() async {
   final totalInMoney = await inMoneyService.getTotalInMoney();
   final totalOutMoney = await outMoneyService.getTotalOutMoney();
