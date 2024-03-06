@@ -1,6 +1,7 @@
 import 'package:daln/view/home/homepage.dart';
 import 'package:daln/view/report/report_view.dart';
 import 'package:daln/widget/fb_auth.dart';
+import 'package:daln/widget/moneyConfig.dart';
 import 'package:flutter/material.dart';
 
 class AccView extends StatefulWidget {
@@ -11,6 +12,29 @@ class AccView extends StatefulWidget {
 }
 
 class _AccViewState extends State<AccView> {
+  double totalMoney = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+    displayTotalMoney();
+  }
+
+  void displayTotalMoney() async {
+    try {
+      final money = await getTotalMoney();
+      setState(() {
+        totalMoney = money;
+      });
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
+  String formatMoney(double money) {
+    return money.toStringAsFixed(0) + 'đ';
+  }
+
   FirebaseAuthService _auth = FirebaseAuthService();
   @override
   Widget build(BuildContext context) {
@@ -51,14 +75,13 @@ class _AccViewState extends State<AccView> {
               SizedBox(height: 32), // Khoảng cách giữa các thành phần
               // Tổng số dư
               Padding(
-                padding: const EdgeInsets.fromLTRB(
-                    16, 8, 16, 8), // Giãn cách trái, phải, trên, dưới
-                child: TextButton(
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                child: ElevatedButton(
                   onPressed: () {},
-                  style: TextButton.styleFrom(
+                  style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
                   ),
-                  child: const Row(
+                  child: Row(
                     children: [
                       Icon(Icons.money),
                       SizedBox(width: 10),
@@ -66,7 +89,7 @@ class _AccViewState extends State<AccView> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text("Tổng số dư"),
-                          Text("0đ"),
+                          Text(formatMoney(totalMoney)),
                         ],
                       ),
                       Spacer(),
@@ -75,7 +98,6 @@ class _AccViewState extends State<AccView> {
                   ),
                 ),
               ),
-
               Padding(
                 padding: const EdgeInsets.fromLTRB(
                     16, 8, 16, 8), // Giãn cách trái, phải, trên, dưới

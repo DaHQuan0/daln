@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:daln/view/account/acc_view.dart';
 import 'package:daln/view/home/moneys_config/in/add_in.dart';
-import 'package:daln/view/home/moneys_config/out/add_out.dart';
 import 'package:daln/view/home/moneys_config/out/out.dart';
 import 'package:daln/widget/moneyConfig.dart';
 import 'package:daln/view/home/homepage.dart';
@@ -22,7 +21,7 @@ class _InMViewState extends State<InMView> {
   final TextEditingController textController = TextEditingController();
   DateTime selectedDate = DateTime.now();
   String selectedOption = 'ngày';
-  String inputText = '';
+  double inputAmount = 0.0;
 
   void openMoneyBox({String? docID}) {
     showDialog(
@@ -32,21 +31,22 @@ class _InMViewState extends State<InMView> {
           controller: textController,
           onChanged: (newText) {
             setState(() {
-              inputText = newText;
+              inputAmount = double.tryParse(newText) ?? 0.0;
             });
           },
+          keyboardType: const TextInputType.numberWithOptions(decimal: true),
         ),
         actions: [
           ElevatedButton(
             onPressed: () {
               if (docID == null) {
-                inMoneyService.addMoney(inputText);
+                inMoneyService.addMoney(inputAmount);
               } else {
-                inMoneyService.updateMoney(docID, inputText);
+                inMoneyService.updateMoney(docID, inputAmount);
               }
               textController.clear();
               setState(() {
-                inputText = '';
+                inputAmount = 0.0;
               });
               Navigator.pop(context);
             },
@@ -77,7 +77,7 @@ class _InMViewState extends State<InMView> {
 
     showMenu(
       context: context,
-      position: RelativeRect.fromLTRB(0, 0, 0, 0),
+      position: const RelativeRect.fromLTRB(0, 0, 0, 0),
       items: options.map((option) {
         return PopupMenuItem(
           value: option,
@@ -180,6 +180,7 @@ class _InMViewState extends State<InMView> {
 
                 Map<String, dynamic> data =
                     document.data() as Map<String, dynamic>;
+                double inmoney = data['inmoney'] as double;
 
                 // Chuyển đổi Timestamp thành DateTime
                 DateTime dateTime = (data['timestamp'] as Timestamp).toDate();
@@ -189,7 +190,7 @@ class _InMViewState extends State<InMView> {
                 String formattedDate = DateFormat.yMd().format(dateTime);
 
                 return ListTile(
-                  title: Text(data['inmoney']),
+                  title: Text(inmoney.toString() + ' VND'),
                   subtitle: Text(
                       '$formattedTime - $formattedDate'), // Hiển thị thời gian và ngày tháng
                   trailing: Row(

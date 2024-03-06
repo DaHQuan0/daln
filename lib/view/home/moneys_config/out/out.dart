@@ -21,7 +21,7 @@ class _OutMViewState extends State<OutMView> {
   final TextEditingController textController = TextEditingController();
   DateTime selectedDate = DateTime.now();
   String selectedOption = 'ngày';
-  String outputText = '';
+  double outputAmount = 0.0;
 
   void openMoneyBox({String? docID}) {
     showDialog(
@@ -31,21 +31,22 @@ class _OutMViewState extends State<OutMView> {
           controller: textController,
           onChanged: (newText) {
             setState(() {
-              outputText = newText;
+              outputAmount = double.tryParse(newText) ?? 0.0;
             });
           },
+          keyboardType: TextInputType.numberWithOptions(decimal: true),
         ),
         actions: [
           ElevatedButton(
             onPressed: () {
               if (docID == null) {
-                outMoneyService.addMoney(outputText);
+                outMoneyService.addMoney(outputAmount);
               } else {
-                outMoneyService.updateMoney(docID, outputText);
+                outMoneyService.updateMoney(docID, outputAmount);
               }
               textController.clear();
               setState(() {
-                outputText = '';
+                outputAmount = 0.0;
               });
               Navigator.pop(context);
             },
@@ -179,6 +180,7 @@ class _OutMViewState extends State<OutMView> {
 
                 Map<String, dynamic> data =
                     document.data() as Map<String, dynamic>;
+                double outmoney = data['outmoney'] as double;
 
                 // Chuyển đổi Timestamp thành DateTime
                 DateTime dateTime = (data['timestamp'] as Timestamp).toDate();
@@ -188,7 +190,7 @@ class _OutMViewState extends State<OutMView> {
                 String formattedDate = DateFormat.yMd().format(dateTime);
 
                 return ListTile(
-                  title: Text(data['outmoney']),
+                  title: Text(outmoney.toString() + ' VND'),
                   subtitle: Text(
                       '$formattedTime - $formattedDate'), // Hiển thị thời gian và ngày tháng
                   trailing: Row(

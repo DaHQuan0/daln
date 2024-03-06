@@ -13,7 +13,7 @@ class _AddMInViewState extends State<AddMInView> {
   final InMoneyService inMoneyService = InMoneyService();
 
   final TextEditingController textController = TextEditingController();
-  String inputText = '';
+  double inputAmount = 0.0;
 
   void openMoneyBox({String? docID}) {
     showDialog(
@@ -23,21 +23,22 @@ class _AddMInViewState extends State<AddMInView> {
           controller: textController,
           onChanged: (newText) {
             setState(() {
-              inputText = newText;
+              inputAmount = double.tryParse(newText) ?? 0.0;
             });
           },
+          keyboardType: TextInputType.numberWithOptions(decimal: true),
         ),
         actions: [
           ElevatedButton(
             onPressed: () {
               if (docID == null) {
-                inMoneyService.addMoney(inputText);
+                inMoneyService.addMoney(inputAmount);
               } else {
-                inMoneyService.updateMoney(docID, inputText);
+                inMoneyService.updateMoney(docID, inputAmount);
               }
               textController.clear();
               setState(() {
-                inputText = '';
+                inputAmount = 0.0;
               });
               Navigator.pop(context);
             },
