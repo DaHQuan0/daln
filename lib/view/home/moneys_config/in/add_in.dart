@@ -75,7 +75,7 @@ class _AddMInViewState extends State<AddMInView> {
                 onTap: () => openMoneyBox(),
                 child: FeatureCard(
                   title: 'Làm thêm',
-                  image: Image.asset('assets/img/u1.png'),
+                  image: Image.asset('assets/img/lamthem.jpg'),
                 ),
               ),
               GestureDetector(
