@@ -1,6 +1,8 @@
 import 'package:daln/view/account/acc_view.dart';
 import 'package:daln/view/home/homepage.dart';
 import 'package:daln/view/home/moneys_config/in/add_in.dart';
+import 'package:daln/widget/moneyConfig.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -12,7 +14,20 @@ class ReportView extends StatefulWidget {
 }
 
 class _ReportViewState extends State<ReportView> {
+  late Future<double> totalInMoneyFuture;
+  late Future<double> totalOutMoneyFuture;
+  late double totalInMoney;
+  late double totalOutMoney;
+
+  @override
+  void initState() {
+    super.initState();
+    totalInMoneyFuture = getTotalInMoney();
+    totalOutMoneyFuture = getTotalOutMoney();
+  }
+
   final TextEditingController textController = TextEditingController();
+
   DateTime selectedDate = DateTime.now();
   String selectedOption = 'ngày';
 
@@ -50,6 +65,25 @@ class _ReportViewState extends State<ReportView> {
         });
       }
     });
+  }
+
+  List<PieChartSectionData> _createChartData() {
+    final data = [
+      PieChartSectionData(
+        value: totalInMoney,
+        color: Colors.blue,
+        title: 'Thu',
+        radius: 80,
+      ),
+      PieChartSectionData(
+        value: totalOutMoney,
+        color: Colors.red,
+        title: 'Chi',
+        radius: 80,
+      ),
+    ];
+
+    return data;
   }
 
   @override
@@ -97,14 +131,48 @@ class _ReportViewState extends State<ReportView> {
           ),
         ],
       ),
-      body: SingleChildScrollView(),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const AddMInView()),
-          );
+      body: FutureBuilder<double>(
+        future: totalOutMoneyFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Text('Error: ${snapshot.error}'),
+            );
+          } else {
+            totalOutMoney = snapshot.data!;
+            return FutureBuilder<double>(
+              future: totalInMoneyFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else if (snapshot.hasError) {
+                  return Center(
+                    child: Text('Error: ${snapshot.error}'),
+                  );
+                } else {
+                  totalInMoney = snapshot.data!;
+                  return Center(
+                    child: Container(
+                      height: 300.0,
+                      child: PieChart(
+                        PieChartData(
+                          sections: _createChartData(),
+                          sectionsSpace: 0,
+                          centerSpaceRadius: 60,
+                        ),
+                      ),
+                    ),
+                  );
+                }
+              },
+            );
+          }
         },
       ),
       bottomNavigationBar: BottomAppBar(

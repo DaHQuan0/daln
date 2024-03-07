@@ -1,107 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:daln/model/report_model.dart';
-import 'package:flutter/material.dart';
-// import 'package:flutter/material.dart';
-
-// class Home extends StatefulWidget {
-//   const Home({Key? key}) : super(key: key);
-
-//   @override
-//   State<Home> createState() => _HomeState();
-// }
-
-// class _HomeState extends State<Home> {
-//   final InMoneyService firestoreService = InMoneyService();
-
-//   final TextEditingController textController = TextEditingController();
-//   double inputAmount = 0.0;
-
-//   void openMoneyBox({String? docID}) {
-//     showDialog(
-//       context: context,
-//       builder: (context) => AlertDialog(
-//         content: TextField(
-//           controller: textController,
-//           onChanged: (newText) {
-//             setState(() {
-//               inputAmount = double.tryParse(newText) ?? 0.0;
-//             });
-//           },
-//           keyboardType: TextInputType.numberWithOptions(decimal: true),
-//         ),
-//         actions: [
-//           ElevatedButton(
-//             onPressed: () {
-//               if (docID == null) {
-//                 firestoreService.addMoney(inputAmount);
-//               } else {
-//                 firestoreService.updateMoney(docID, inputAmount);
-//               }
-//               textController.clear();
-//               setState(() {
-//                 inputAmount = 0.0;
-//               });
-//               Navigator.pop(context);
-//             },
-//             child: Text('Add'),
-//           )
-//         ],
-//       ),
-//     );
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Flutter Demo'),
-//       ),
-//       floatingActionButton: FloatingActionButton(
-//         onPressed: () => openMoneyBox(),
-//         child: Icon(Icons.add),
-//       ),
-//       body: StreamBuilder<QuerySnapshot>(
-//         stream: firestoreService.getMoneysStream(),
-//         builder: (context, snapshot) {
-//           if (snapshot.hasData) {
-//             List<QueryDocumentSnapshot> moneyList = snapshot.data!.docs;
-
-//             return ListView.builder(
-//               itemCount: moneyList.length,
-//               itemBuilder: (context, index) {
-//                 DocumentSnapshot document = moneyList[index];
-//                 String docID = document.id;
-
-//                 Map<String, dynamic> data =
-//                     document.data() as Map<String, dynamic>;
-//                 double inmoney = data['inmoney'] as double;
-
-//                 return ListTile(
-//                   title: Text(inmoney.toString()),
-//                   trailing: Row(
-//                     mainAxisSize: MainAxisSize.min,
-//                     children: [
-//                       IconButton(
-//                         onPressed: () => openMoneyBox(docID: docID),
-//                         icon: Icon(Icons.settings),
-//                       ),
-//                       IconButton(
-//                         onPressed: () => firestoreService.deleteMoney(docID),
-//                         icon: Icon(Icons.delete),
-//                       ),
-//                     ],
-//                   ),
-//                 );
-//               },
-//             );
-//           } else {
-//             return Text('No data...');
-//           }
-//         },
-//       ),
-//     );
-//   }
-// }
 
 class InMoneyService {
   final CollectionReference inmoneys =
@@ -205,4 +102,16 @@ Future<double> getTotalMoney() async {
 
   final totalMoney = totalInMoney - totalOutMoney;
   return totalMoney;
+}
+
+Future<double> getTotalInMoney() async {
+  // Lấy tổng số tiền thu vào trong ngày
+  final totalInMoney = await inMoneyService.getTotalInMoney();
+  return totalInMoney;
+}
+
+Future<double> getTotalOutMoney() async {
+  // Lấy tổng số tiền tiêu ra trong ngày
+  final totalOutMoney = await outMoneyService.getTotalOutMoney();
+  return totalOutMoney;
 }

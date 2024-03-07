@@ -37,7 +37,6 @@ class MyApp extends StatelessWidget {
         "/": (context) => const HomePage(),
         "/singin": (context) => SigninView(),
         "/login": (context) => LoginView(),
-        //"/content": (context) => TongHop(),
         "/add-out": (context) => AddMOutView(),
         "/add-in": (context) => AddMInView()
       },
