@@ -12,7 +12,7 @@ class LoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFCEABB5),
+      backgroundColor: Color.fromARGB(255, 243, 234, 236),
       body: SingleChildScrollView(
           child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 25),
@@ -46,14 +46,16 @@ class LoginView extends StatelessWidget {
               ),
               SizedBox(height: 30),
               MyTextField(
-                  controller: emailController,
-                  hinText: "Email",
-                  obscureText: false),
+                controller: emailController,
+                hinText: "Email",
+                obscureText: false,
+              ),
               SizedBox(height: 20),
               MyTextField(
-                  controller: passwordController,
-                  hinText: "Password",
-                  obscureText: true),
+                controller: passwordController,
+                hinText: "Password",
+                obscureText: true,
+              ),
               SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -117,6 +119,4 @@ class LoginView extends StatelessWidget {
       )),
     );
   }
-
-  void setState(Null Function() param0) {}
 }

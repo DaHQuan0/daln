@@ -23,7 +23,7 @@ class _InMViewState extends State<InMView> {
   String selectedOption = 'ngày';
   double inputAmount = 0.0;
 
-  void openMoneyBox({String? docID}) {
+  void openMoneyBox({String? docID, String? title}) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -40,9 +40,9 @@ class _InMViewState extends State<InMView> {
           ElevatedButton(
             onPressed: () {
               if (docID == null) {
-                inMoneyService.addMoney(inputAmount);
+                inMoneyService.addMoney(inputAmount, title: title);
               } else {
-                inMoneyService.updateMoney(docID, inputAmount);
+                inMoneyService.updateMoney(docID, inputAmount, title: title);
               }
               textController.clear();
               setState(() {
@@ -146,7 +146,7 @@ class _InMViewState extends State<InMView> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const InMView()),
+                    MaterialPageRoute(builder: (context) => const OutMView()),
                   );
                 },
                 child: const Text('Khoản chi tiêu'),
@@ -156,7 +156,7 @@ class _InMViewState extends State<InMView> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => const OutMView()),
+                    MaterialPageRoute(builder: (context) => const InMView()),
                   );
                 },
                 child: const Text('Khoản thu về'),
@@ -181,6 +181,7 @@ class _InMViewState extends State<InMView> {
                 Map<String, dynamic> data =
                     document.data() as Map<String, dynamic>;
                 double inmoney = data['inmoney'] as double;
+                String? title = data['title'] as String?;
 
                 // Chuyển đổi Timestamp thành DateTime
                 DateTime dateTime = (data['timestamp'] as Timestamp).toDate();
@@ -189,22 +190,33 @@ class _InMViewState extends State<InMView> {
                 String formattedTime = DateFormat.Hm().format(dateTime);
                 String formattedDate = DateFormat.yMd().format(dateTime);
 
-                return ListTile(
-                  title: Text(inmoney.toString() + ' VND'),
-                  subtitle: Text(
-                      '$formattedTime - $formattedDate'), // Hiển thị thời gian và ngày tháng
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        onPressed: () => openMoneyBox(docID: docID),
-                        icon: Icon(Icons.settings),
-                      ),
-                      IconButton(
-                        onPressed: () => inMoneyService.deleteMoney(docID),
-                        icon: Icon(Icons.delete),
-                      ),
-                    ],
+                return Container(
+                  color: Colors.grey[200], // Màu nền
+                  padding:
+                      EdgeInsets.symmetric(vertical: 8.0), // Khoảng cách dọc
+                  child: ListTile(
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(title ?? ''), // Hiển thị title
+                        Text(inmoney.toString() + ' VND'),
+                      ],
+                    ),
+                    subtitle: Text(
+                        '$formattedTime - $formattedDate'), // Hiển thị thời gian và ngày tháng
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          onPressed: () => openMoneyBox(docID: docID),
+                          icon: Icon(Icons.settings),
+                        ),
+                        IconButton(
+                          onPressed: () => outMoneyService.deleteMoney(docID),
+                          icon: Icon(Icons.delete),
+                        ),
+                      ],
+                    ),
                   ),
                 );
               },

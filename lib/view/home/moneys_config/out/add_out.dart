@@ -1,4 +1,5 @@
 import 'package:daln/common_widget/feature_card.dart';
+import 'package:daln/view/home/moneys_config/out/out.dart';
 import 'package:daln/widget/moneyConfig.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +16,7 @@ class _AddMOutViewState extends State<AddMOutView> {
   final TextEditingController textController = TextEditingController();
   double outputAmount = 0.0;
 
-  void openMoneyBox({String? docID}) {
+  void openMoneyBox({String? docID, String? title}) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -32,15 +33,20 @@ class _AddMOutViewState extends State<AddMOutView> {
           ElevatedButton(
             onPressed: () {
               if (docID == null) {
-                outMoneyService.addMoney(outputAmount);
+                outMoneyService.addMoney(outputAmount, title: title);
               } else {
-                outMoneyService.updateMoney(docID, outputAmount);
+                outMoneyService.updateMoney(docID, outputAmount, title: title);
               }
               textController.clear();
               setState(() {
                 outputAmount = 0.0;
               });
-              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => OutMView(),
+                ),
+              );
             },
             child: Text('Add'),
           )
@@ -64,42 +70,42 @@ class _AddMOutViewState extends State<AddMOutView> {
             alignment: WrapAlignment.spaceBetween,
             children: <Widget>[
               GestureDetector(
-                onTap: () => openMoneyBox(),
+                onTap: () => openMoneyBox(title: "Ăn uống"),
                 child: FeatureCard(
                   title: 'Ăn uống',
                   image: Image.asset('assets/img/anuong.png'),
                 ),
               ),
               GestureDetector(
-                onTap: () => openMoneyBox(),
+                onTap: () => openMoneyBox(title: 'Mua sắm'),
                 child: FeatureCard(
                   title: 'Mua sắm',
                   image: Image.asset('assets/img/shopping.png'),
                 ),
               ),
               GestureDetector(
-                onTap: () => openMoneyBox(),
+                onTap: () => openMoneyBox(title: 'Đi lại'),
                 child: FeatureCard(
                   title: 'Đi lại',
                   image: Image.asset('assets/img/go.png'),
                 ),
               ),
               GestureDetector(
-                onTap: () => openMoneyBox(),
+                onTap: () => openMoneyBox(title: 'Nhà cửa'),
                 child: FeatureCard(
                   title: 'Nhà cửa',
                   image: Image.asset('assets/img/house.png'),
                 ),
               ),
               GestureDetector(
-                onTap: () => openMoneyBox(),
+                onTap: () => openMoneyBox(title: 'Học tập'),
                 child: FeatureCard(
                   title: 'Học tập',
                   image: Image.asset('assets/img/learn.png'),
                 ),
               ),
               GestureDetector(
-                onTap: () => openMoneyBox(),
+                onTap: () => openMoneyBox(title: 'Cho vay'),
                 child: FeatureCard(
                   title: 'Cho vay',
                   image: Image.asset('assets/img/vay.png'),

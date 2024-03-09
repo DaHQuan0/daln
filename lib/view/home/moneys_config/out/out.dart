@@ -23,7 +23,7 @@ class _OutMViewState extends State<OutMView> {
   String selectedOption = 'ngày';
   double outputAmount = 0.0;
 
-  void openMoneyBox({String? docID}) {
+  void openMoneyBox({String? docID, String? title}) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -40,9 +40,9 @@ class _OutMViewState extends State<OutMView> {
           ElevatedButton(
             onPressed: () {
               if (docID == null) {
-                outMoneyService.addMoney(outputAmount);
+                outMoneyService.addMoney(outputAmount, title: title);
               } else {
-                outMoneyService.updateMoney(docID, outputAmount);
+                outMoneyService.updateMoney(docID, outputAmount, title: title);
               }
               textController.clear();
               setState(() {
@@ -181,6 +181,7 @@ class _OutMViewState extends State<OutMView> {
                 Map<String, dynamic> data =
                     document.data() as Map<String, dynamic>;
                 double outmoney = data['outmoney'] as double;
+                String? title = data['title'] as String?;
 
                 // Chuyển đổi Timestamp thành DateTime
                 DateTime dateTime = (data['timestamp'] as Timestamp).toDate();
@@ -189,22 +190,33 @@ class _OutMViewState extends State<OutMView> {
                 String formattedTime = DateFormat.Hm().format(dateTime);
                 String formattedDate = DateFormat.yMd().format(dateTime);
 
-                return ListTile(
-                  title: Text(outmoney.toString() + ' VND'),
-                  subtitle: Text(
-                      '$formattedTime - $formattedDate'), // Hiển thị thời gian và ngày tháng
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        onPressed: () => openMoneyBox(docID: docID),
-                        icon: Icon(Icons.settings),
-                      ),
-                      IconButton(
-                        onPressed: () => outMoneyService.deleteMoney(docID),
-                        icon: Icon(Icons.delete),
-                      ),
-                    ],
+                return Container(
+                  color: Colors.grey[200], // Màu nền
+                  padding:
+                      EdgeInsets.symmetric(vertical: 8.0), // Khoảng cách dọc
+                  child: ListTile(
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(title ?? ''), // Hiển thị title
+                        Text(outmoney.toString() + ' VND'),
+                      ],
+                    ),
+                    subtitle: Text(
+                        '$formattedTime - $formattedDate'), // Hiển thị thời gian và ngày tháng
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          onPressed: () => openMoneyBox(docID: docID),
+                          icon: Icon(Icons.settings),
+                        ),
+                        IconButton(
+                          onPressed: () => outMoneyService.deleteMoney(docID),
+                          icon: Icon(Icons.delete),
+                        ),
+                      ],
+                    ),
                   ),
                 );
               },

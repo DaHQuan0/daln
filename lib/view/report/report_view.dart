@@ -1,6 +1,5 @@
 import 'package:daln/view/account/acc_view.dart';
 import 'package:daln/view/home/homepage.dart';
-import 'package:daln/view/home/moneys_config/in/add_in.dart';
 import 'package:daln/widget/moneyConfig.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';

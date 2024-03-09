@@ -1,5 +1,5 @@
 import 'package:daln/view/home/moneys_config/out/out.dart';
-import 'package:daln/view/home/wellcome_view.dart';
+import 'package:daln/view/login/login_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -19,7 +19,7 @@ class _HomeViewState extends State<HomePage> {
           if (snapshot.hasData) {
             return OutMView();
           } else {
-            return WellcomeView();
+            return LoginView();
           }
         });
   }

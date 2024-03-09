@@ -12,7 +12,7 @@ class SigninView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFCEABB5),
+      backgroundColor: Color.fromARGB(255, 243, 234, 236),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 25),
         child: SingleChildScrollView(
@@ -80,7 +80,7 @@ class SigninView extends StatelessWidget {
                       content: Text("Đã đăng ký thành công."),
                     ));
 
-                    Navigator.of(context).popAndPushNamed("/content");
+                    Navigator.of(context).popAndPushNamed("/add-out");
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text("Có lỗi đăng ký."),

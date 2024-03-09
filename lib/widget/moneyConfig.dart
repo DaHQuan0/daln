@@ -4,9 +4,10 @@ class InMoneyService {
   final CollectionReference inmoneys =
       FirebaseFirestore.instance.collection('inmoneys');
 
-  Future<void> addMoney(double inmoney) {
+  Future<void> addMoney(double inmoney, {String? title}) {
     return inmoneys.add({
       'inmoney': inmoney,
+      'title': title,
       'timestamp': Timestamp.now(),
     });
   }
@@ -18,9 +19,10 @@ class InMoneyService {
     return moneyStream;
   }
 
-  Future<void> updateMoney(String docID, double newM) {
+  Future<void> updateMoney(String docID, double newM, {String? title}) {
     return inmoneys.doc(docID).update({
       'inmoney': newM,
+      'title': title,
       'timestamp': Timestamp.now(),
     });
   }
@@ -51,9 +53,10 @@ class OutMoneyService {
   final CollectionReference outmoneys =
       FirebaseFirestore.instance.collection('outmoneys');
 
-  Future<void> addMoney(double outmoney) {
+  Future<void> addMoney(double outmoney, {String? title}) {
     return outmoneys.add({
       'outmoney': outmoney,
+      'title': title,
       'timestamp': Timestamp.now(),
     });
   }
@@ -65,9 +68,10 @@ class OutMoneyService {
     return moneyStream;
   }
 
-  Future<void> updateMoney(String docID, double newM) {
+  Future<void> updateMoney(String docID, double newM, {String? title}) {
     return outmoneys.doc(docID).update({
       'outmoney': newM,
+      'title': title,
       'timestamp': Timestamp.now(),
     });
   }
