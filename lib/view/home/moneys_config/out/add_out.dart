@@ -27,7 +27,7 @@ class _AddMOutViewState extends State<AddMOutView> {
               outputAmount = double.tryParse(newText) ?? 0.0;
             });
           },
-          keyboardType: TextInputType.numberWithOptions(decimal: true),
+          keyboardType: const TextInputType.numberWithOptions(decimal: true),
         ),
         actions: [
           ElevatedButton(
